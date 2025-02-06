@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="module" src="popup.js"></script>
+</head>
+<body>
+  <div id="loading" class="loading">
+    <div class="loading-spinner"></div>
+    <div class="loading-text" data-i18n="loading"></div>
+  </div>
+  
+  <div class="header">
+    <h1 data-i18n="title"></h1>
+    <div class="actions">
+      <button id="settingsBtn" class="icon-button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5Z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M14.4263 3.64807C13.7029 3.22972 12.8864 2.94243 12.0264 2.80345C12.0098 2.80107 11.9929 2.80107 11.9763 2.80345C11.1163 2.94243 10.2998 3.22972 9.57641 3.64807C9.56305 3.65516 9.55155 3.66526 9.54272 3.67766C9.06788 4.44719 8.36788 5.69719 8.36788 5.69719C8.36788 5.69719 7.83558 5.90142 7.30397 6.10492C6.77237 6.30842 5.94397 6.69719 5.94397 6.69719C5.15485 7.42188 4.52009 8.29702 4.07641 9.27307C4.06813 9.28915 4.06335 9.30671 4.06237 9.32461C4.05437 10.2146 4.04397 11.6972 4.04397 11.6972C4.04397 11.6972 3.64397 12.5972 3.44397 13.1972C3.24397 13.7972 3.04397 14.6972 3.04397 14.6972C3.03935 14.7153 3.03851 14.7341 3.04151 14.7525C3.44397 16.1972 4.04397 17.1972 4.54397 17.6972C4.55674 17.71 4.57231 17.7199 4.58947 17.7262C5.34397 18.1972 7.04397 18.6972 7.04397 18.6972L8.54397 19.6972C8.55656 19.7098 8.57155 19.7189 8.58789 19.7239C9.44397 19.9239 10.7607 20.1572 12.044 20.1572C13.3273 20.1572 14.644 19.9239 15.5 19.7239C15.5164 19.7189 15.5314 19.7098 15.544 19.6972L17.044 18.6972C17.044 18.6972 18.744 18.1972 19.4985 17.7262C19.5157 17.7199 19.5312 17.71 19.544 17.6972C20.044 17.1972 20.644 16.1972 21.0464 14.7525C21.0494 14.7341 21.0486 14.7153 21.044 14.6972C21.044 14.6972 20.844 13.7972 20.644 13.1972C20.444 12.5972 20.044 11.6972 20.044 11.6972C20.044 11.6972 20.0336 10.2146 20.0256 9.32461C20.0246 9.30671 20.0198 9.28915 20.0116 9.27307C19.5679 8.29702 18.9331 7.42188 18.144 6.69719C18.144 6.69719 17.3156 6.30842 16.784 6.10492C16.2524 5.90142 15.7201 5.69719 15.7201 5.69719C15.7201 5.69719 15.0201 4.44719 14.5453 3.67766C14.5364 3.66526 14.5249 3.65516 14.5116 3.64807L14.4263 3.64807Z" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+      <button id="downloadSelected" class="primary-button" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 11L12 14L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M20 12V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18V6C4 4.89543 4.89543 4 6 4H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span data-i18n="downloadSelected"></span>
+      </button>
+      <button id="downloadAll" class="primary-button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 16L7 11H17L12 16Z" fill="currentColor"/>
+          <path d="M12 4V12M12 12L16 8M12 12L8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M20 21H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span data-i18n="downloadAll"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div id="imageList"></div>
+  </div>
+
+  <!-- 设置弹出层 -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>设置</h2>
+        <button id="closeSettings" class="close-button">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-item">
+          <label for="minWidth">最小宽度 (像素)</label>
+          <input type="number" id="minWidth" min="0" step="1">
+        </div>
+        <div class="setting-item">
+          <label for="minHeight">最小高度 (像素)</label>
+          <input type="number" id="minHeight" min="0" step="1">
+        </div>
+        <div class="setting-actions">
+          <button id="saveSettings" class="primary-button">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
