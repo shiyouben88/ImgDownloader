@@ -64,8 +64,8 @@ async function downloadImage(url, pageTitle) {
     // 处理 pageTitle，移除不合法的文件名字符，添加兜底值
     const sanitizedTitle = sanitizeFileName(pageTitle);
     
-    // 文件命名格式：页面标题_原始文件名_时间戳.扩展名
-    const filename = `${sanitizedTitle}_${originalFileName}_${timestamp}.${extension}`;
+    // 文件命名格式：文件夹/原始文件名_时间戳.扩展名
+    const filename = `${sanitizedTitle}/${originalFileName}_${timestamp}.${extension}`;
     
     console.log('Downloading with filename:', filename);  // 添加日志
     
