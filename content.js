@@ -1,15 +1,17 @@
+// 监听来自 popup 页面的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'getImages') {
     // 使用 Set 来存储唯一的图片指纹
     const uniqueImages = new Map();
     
+    // 获取页面上所有图片元素并处理
     const images = Array.from(document.querySelectorAll('img')).map(img => {
       let src = img.src;
       let originalFormat = '';
       
       // 处理Instagram图片URL
       if (window.location.hostname.includes('instagram.com')) {
-        // 尝试获取原始图片URL
+        // 尝试获取原始图片URL，通过srcset获取最高分辨率的图片
         const srcset = img.srcset;
         if (srcset) {
           const sources = srcset.split(',').map(s => s.trim().split(' '));
@@ -23,12 +25,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
       }
       
-      // 处理webp格式和特殊URL参数
+      // 处理图片URL格式和参数
       const url = new URL(src);
       const pathname = url.pathname;
       const searchParams = url.searchParams;
       
-      // 检查URL路径中的格式
+      // 检查URL路径中的图片格式
       const formatMatch = pathname.match(/\.(jpg|jpeg|png|gif|webp|avif)(\!|\?|$)/i);
       if (formatMatch) {
         originalFormat = formatMatch[1].toLowerCase();
@@ -39,15 +41,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         originalFormat = 'webp';
       }
       
+      // 返回处理后的图片信息
       return {
         src: src,
         width: img.naturalWidth || img.width,
         height: img.naturalHeight || img.height,
         format: originalFormat || 'jpg' // 如果无法检测到格式，默认使用jpg
       };
-    }).filter(img => img.src); // 只过滤掉无效的图片，尺寸过滤放到popup.js中处理
+    }).filter(img => img.src); // 过滤掉无效的图片URL
     
-    // 对图片进行去重
+    // 对图片进行去重处理
     images.forEach(img => {
       // 使用尺寸和URL的最后部分作为指纹
       const urlPath = new URL(img.src).pathname;
@@ -60,10 +63,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     });
     
-    // 转换回数组
+    // 将去重后的图片信息转换回数组并返回
     const uniqueImagesArray = Array.from(uniqueImages.values());
-    
     sendResponse({images: uniqueImagesArray});
   }
-  return true;
+  return true; // 保持消息通道开启
 });

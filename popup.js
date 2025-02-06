@@ -1,8 +1,11 @@
+// 导入国际化工具函数
 import { t } from './i18n.js';
 
+// 全局状态管理
 let downloadQueue = [];
 let selectedImages = new Set();
 
+// 默认设置
 const DEFAULT_SETTINGS = {
   minWidth: 0,
   minHeight: 0
@@ -10,6 +13,11 @@ const DEFAULT_SETTINGS = {
 
 let currentSettings = {...DEFAULT_SETTINGS};
 
+/**
+ * 获取图片大小
+ * @param {string} url - 图片URL
+ * @returns {Promise<string>} 返回图片大小（KB）
+ */
 async function getImageSize(url) {
   try {
     const response = await fetch(url, {
@@ -28,6 +36,10 @@ async function getImageSize(url) {
   }
 }
 
+/**
+ * 显示图片列表
+ * 获取页面上的所有图片，并按照大小和分辨率排序显示
+ */
 async function displayImages() {
   const loadingElement = document.getElementById('loading');
   loadingElement.style.display = 'flex';
@@ -39,6 +51,7 @@ async function displayImages() {
       const imageList = document.getElementById('imageList');
       imageList.innerHTML = '';
       
+      // 获取所有图片的大小信息
       const imagesWithSize = await Promise.all(
         response.images.map(async img => {
           const size = await getImageSize(img.src);
@@ -46,6 +59,7 @@ async function displayImages() {
         })
       );
 
+      // 过滤并排序图片
       const filteredImages = filterImages(imagesWithSize);
       const sortedImages = filteredImages.sort((a, b) => {
         const [aLong, aShort] = a.width >= a.height ? [a.width, a.height] : [a.height, a.width];
@@ -57,15 +71,18 @@ async function displayImages() {
         return b.sizeKB - a.sizeKB;
       });
       
+      // 创建图片卡片
       for (const img of sortedImages) {
         const card = document.createElement('div');
         card.className = 'image-card';
         
+        // 创建复选框
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.className = 'image-checkbox';
         checkbox.dataset.url = img.src;
         
+        // 添加卡片点击事件
         card.addEventListener('click', (e) => {
           if (e.target.classList.contains('download-btn')) return;
           
@@ -85,6 +102,7 @@ async function displayImages() {
           });
         });
         
+        // 添加复选框点击事件
         checkbox.addEventListener('click', (e) => {
           e.stopPropagation();
           const isSelected = checkbox.checked;
@@ -102,9 +120,11 @@ async function displayImages() {
           });
         });
         
+        // 创建图片容器
         const imageContainer = document.createElement('div');
         imageContainer.className = 'image-container';
         
+        // 创建图片预览
         const imgElement = document.createElement('img');
         imgElement.alt = 'Preview';
         imgElement.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZjVmNWY1Ii8+PHRleHQgeD0iMTIiIHk9IjEyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+TG9hZGluZy4uLjwvdGV4dD48L3N2Zz4=';
@@ -113,30 +133,7 @@ async function displayImages() {
         actualImage.crossOrigin = 'anonymous';
         actualImage.referrerPolicy = 'no-referrer';
 
-        async function loadImageWithFetch(url) {
-          try {
-            const response = await fetch(url, {
-              headers: {
-                'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache',
-                'Referrer-Policy': 'no-referrer',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-              },
-              credentials: 'omit',
-              mode: 'cors',
-              referrerPolicy: 'no-referrer'
-            });
-            
-            const blob = await response.blob();
-            return URL.createObjectURL(blob);
-          } catch (error) {
-            console.error('Error loading image:', error);
-            return null;
-          }
-        }
-
+        // 处理Instagram图片加载
         if (img.src.includes('instagram.com')) {
           loadImageWithFetch(img.src).then(blobUrl => {
             if (blobUrl) {
@@ -160,24 +157,37 @@ async function displayImages() {
         
         imageContainer.appendChild(imgElement);
         
-        const extension = img.src.split('.').pop().split('?')[0].toLowerCase();
+        // 添加图片信息和下载按钮
         const infoHtml = `
           <div class="image-info">
             <div>${t('size')}: ${img.width} x ${img.height}</div>
             <div>${t('fileSize')}: ${img.sizeKB.toFixed(2)} KB</div>
           </div>
-          <button class="download-btn" data-url="${img.src}">${t('download')}</button>
         `;
         
         card.appendChild(checkbox);
         card.appendChild(imageContainer);
         card.insertAdjacentHTML('beforeend', infoHtml);
+        
+        // 直接在这里设置下载按钮的事件监听
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.textContent = t('download');
+        downloadBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // 防止触发卡片的点击事件
+          downloadImage(img.src);
+        });
+        
+        card.appendChild(downloadBtn);
         imageList.appendChild(card);
       }
       
       downloadQueue = sortedImages.map(img => img.src);
       loadingElement.style.display = 'none';
-      setupEventListeners();
+      
+      // 只设置全局按钮的事件监听
+      document.getElementById('downloadAll').addEventListener('click', downloadAll);
+      document.getElementById('downloadSelected').addEventListener('click', downloadSelected);
     });
   } catch (error) {
     console.error('Error:', error);
@@ -185,24 +195,22 @@ async function displayImages() {
   }
 }
 
+/**
+ * 设置事件监听器
+ * 为下载按钮添加点击事件
+ */
 function setupEventListeners() {
-  document.querySelectorAll('.download-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      downloadImage(btn.dataset.url);
-    });
-  });
-  
   document.getElementById('downloadAll').addEventListener('click', downloadAll);
   document.getElementById('downloadSelected').addEventListener('click', downloadSelected);
 }
 
+/**
+ * 下载所有图片
+ */
 async function downloadAll() {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  const pageTitle = tab.title.replace(/[<>:"/\\|?*]/g, '_');
-  
   const downloads = downloadQueue.map(url => ({
     url,
-    pageTitle
+    pageTitle: currentPageTitle
   }));
   
   chrome.runtime.sendMessage({
@@ -211,6 +219,9 @@ async function downloadAll() {
   });
 }
 
+/**
+ * 下载选中的图片
+ */
 async function downloadSelected() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const pageTitle = tab.title.replace(/[<>:"/\\|?*]/g, '_');
@@ -232,24 +243,41 @@ async function downloadSelected() {
   updateDownloadSelectedButton();
 }
 
-async function downloadImage(url) {
+/**
+ * 下载单张图片
+ * @param {string} url - 图片URL
+ */
+let currentPageTitle = '';
+
+document.addEventListener('DOMContentLoaded', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  const pageTitle = tab.title.replace(/[<>:"/\\|?*]/g, '_');
+  currentPageTitle = tab.title.replace(/[<>:"\\|?*]/g, '_');
+  displayImages();
+});
+
+async function downloadImage(url) {
+  console.log('单个下载 - 页面标题:', currentPageTitle);
   
   chrome.runtime.sendMessage({
     action: 'queueDownloads',
     urls: [{
       url,
-      pageTitle
+      pageTitle: currentPageTitle
     }]
   });
 }
 
+/**
+ * 更新下载选中按钮状态
+ */
 function updateDownloadSelectedButton() {
   const downloadSelectedBtn = document.getElementById('downloadSelected');
   downloadSelectedBtn.disabled = selectedImages.size === 0;
 }
 
+/**
+ * 加载设置
+ */
 async function loadSettings() {
   try {
     const result = await chrome.storage.sync.get('settings');
@@ -266,6 +294,9 @@ async function loadSettings() {
   }
 }
 
+/**
+ * 保存设置
+ */
 async function saveSettings() {
   const minWidthInput = document.getElementById('minWidth');
   const minHeightInput = document.getElementById('minHeight');
@@ -300,6 +331,9 @@ async function saveSettings() {
   }
 }
 
+/**
+ * 设置相关事件监听器
+ */
 function setupSettingsListeners() {
   const modal = document.getElementById('settingsModal');
   const settingsBtn = document.getElementById('settingsBtn');
@@ -308,6 +342,7 @@ function setupSettingsListeners() {
   const minWidthInput = document.getElementById('minWidth');
   const minHeightInput = document.getElementById('minHeight');
 
+  // 处理输入框失焦事件
   minWidthInput.addEventListener('blur', () => {
     if (minWidthInput.value.trim() === '') {
       minWidthInput.value = '0';
@@ -337,6 +372,12 @@ function setupSettingsListeners() {
   });
 }
 
+/**
+ * 过滤图片列表
+ * 根据当前设置的最小宽度和高度过滤图片
+ * @param {Array} images - 图片列表
+ * @returns {Array} 过滤后的图片列表
+ */
 function filterImages(images) {
   return images.filter(img => 
     img.width >= currentSettings.minWidth && 
@@ -344,6 +385,10 @@ function filterImages(images) {
   );
 }
 
+/**
+ * 初始化国际化
+ * 遍历所有带有 data-i18n 属性的元素，设置其文本内容
+ */
 function initializeI18n() {
   document.querySelectorAll('[data-i18n]').forEach(element => {
     const key = element.getAttribute('data-i18n');
@@ -351,9 +396,37 @@ function initializeI18n() {
   });
 }
 
+// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', async () => {
   initializeI18n();
   await loadSettings();
   setupSettingsListeners();
   displayImages();
 });
+
+/**
+ * 通过 fetch 加载图片
+ * @param {string} url - 图片URL
+ * @returns {Promise<string|null>} 返回 blob URL 或 null
+ */
+async function loadImageWithFetch(url) {
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      mode: 'cors',
+      referrerPolicy: 'no-referrer'
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error('Error loading image:', error);
+    return null;
+  }
+}
