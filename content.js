@@ -41,17 +41,52 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         originalFormat = 'webp';
       }
       
-      // 返回处理后的图片信息
       return {
         src: src,
         width: img.naturalWidth || img.width,
         height: img.naturalHeight || img.height,
-        format: originalFormat || 'jpg' // 如果无法检测到格式，默认使用jpg
+        format: originalFormat || 'jpg'
       };
-    }).filter(img => img.src); // 过滤掉无效的图片URL
+    }).filter(img => img.src);
+
+    // 获取背景图片
+    const bgImages = Array.from(document.querySelectorAll('*')).reduce((acc, el) => {
+      const style = window.getComputedStyle(el);
+      const bgImage = style.backgroundImage;
+      
+      if (bgImage && bgImage !== 'none') {
+        const matches = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
+        if (matches) {
+          const src = matches[1];
+          let originalFormat = '';
+          
+          try {
+            const url = new URL(src, window.location.href);
+            const pathname = url.pathname;
+            const formatMatch = pathname.match(/\.(jpg|jpeg|png|gif|webp|avif)(\!|\?|$)/i);
+            if (formatMatch) {
+              originalFormat = formatMatch[1].toLowerCase();
+            }
+            
+            acc.push({
+              src: src,
+              width: el.offsetWidth || 0,
+              height: el.offsetHeight || 0,
+              format: originalFormat || 'jpg'
+            });
+          } catch (e) {
+            console.error('Error parsing background image URL:', e);
+          }
+        }
+      }
+      return acc;
+    }, []);
+    
+    // 合并普通图片和背景图片
+    const allImages = [...images, ...bgImages];
     
     // 对图片进行去重处理
-    images.forEach(img => {
+    allImages.forEach(img => {
       // 使用尺寸和URL的最后部分作为指纹
       const urlPath = new URL(img.src).pathname;
       const fingerprint = `${img.width}x${img.height}_${urlPath.split('/').pop()}`;
