@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Image Downloader - Pure Clean and Safe",
+  "name": "Image Downloader - PM Code with AI",
   "version": "1.3",
-  "description": "Download images from instagram, pinterest, and other websites",
+  "description": "Download images from instagram, pinterest with 1 Click",
   "permissions": [
     "activeTab",
     "downloads",
