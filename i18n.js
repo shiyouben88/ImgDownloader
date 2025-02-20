@@ -1,6 +1,6 @@
 const i18n = {
   'en': {
-    title: 'Image Downloader - PM Code with AI',
+    title: 'Image Downloader',
     downloadSelected: 'Download Selected',
     downloadAll: 'Download All',
     settings: 'Settings',
@@ -16,7 +16,7 @@ const i18n = {
     loadingFailed: 'Loading failed'
   },
   'zh': {
-    title: '图片下载器 - PM Code with AI',
+    title: '图片下载器',
     downloadSelected: '下载所选',
     downloadAll: '下载全部',
     settings: '设置',
@@ -32,7 +32,7 @@ const i18n = {
     loadingFailed: '加载失败'
   },
   'zh-tw': {
-    title: '圖片下載器 - PM Code with AI',
+    title: '圖片下載器',
     downloadSelected: '下載所選',
     downloadAll: '下載全部',
     settings: '設定',
@@ -48,7 +48,7 @@ const i18n = {
     loadingFailed: '載入失敗'
   },
   'ja': {
-    title: '画像ダウンローダー - PM Code with AI',
+    title: '画像ダウンローダー',
     downloadSelected: '選択をダウンロード',
     downloadAll: '全てダウンロード',
     settings: '設定',
@@ -64,7 +64,7 @@ const i18n = {
     loadingFailed: '読み込みに失敗しました'
   },
   'ko': {
-    title: '이미지 다운로더 - PM Code with AI',
+    title: '이미지 다운로더',
     downloadSelected: '선택 다운로드',
     downloadAll: '전체 다운로드',
     settings: '설정',
@@ -80,7 +80,7 @@ const i18n = {
     loadingFailed: '로딩 실패'
   },
   'es': {
-    title: 'Descargador de imágenes - PM Code with AI',
+    title: 'Descargador de imágenes',
     downloadSelected: 'Descargar seleccionados',
     downloadAll: 'Descargar todo',
     settings: 'Configuración',
@@ -96,7 +96,7 @@ const i18n = {
     loadingFailed: 'Error al cargar'
   },
   'fr': {
-    title: 'Téléchargeur d\'images - PM Code with AI',
+    title: 'Téléchargeur d\'images',
     downloadSelected: 'Télécharger la sélection',
     downloadAll: 'Tout télécharger',
     settings: 'Paramètres',
@@ -112,7 +112,7 @@ const i18n = {
     loadingFailed: 'Échec du chargement'
   },
   'de': {
-    title: 'Bilder-Downloader - PM Code with AI',
+    title: 'Bilder-Downloader',
     downloadSelected: 'Ausgewählte herunterladen',
     downloadAll: 'Alle herunterladen',
     settings: 'Einstellungen',
@@ -128,7 +128,7 @@ const i18n = {
     loadingFailed: 'Laden fehlgeschlagen'
   },
   'ru': {
-    title: 'Загрузчик изображений - PM Code with AI',
+    title: 'Загрузчик изображений',
     downloadSelected: 'Скачать выбранные',
     downloadAll: 'Скачать все',
     settings: 'Настройки',
@@ -144,7 +144,7 @@ const i18n = {
     loadingFailed: 'Ошибка загрузки'
   },
   'pt': {
-    title: 'Baixador de imagens - PM Code with AI',
+    title: 'Baixador de imagens',
     downloadSelected: 'Baixar selecionados',
     downloadAll: 'Baixar tudo',
     settings: 'Configurações',
@@ -160,7 +160,7 @@ const i18n = {
     loadingFailed: 'Falha ao carregar'
   },
   'it': {
-    title: 'Scaricatore di immagini - PM Code with AI',
+    title: 'Scaricatore di immagini',
     downloadSelected: 'Scarica selezionati',
     downloadAll: 'Scarica tutto',
     settings: 'Impostazioni',
@@ -176,7 +176,7 @@ const i18n = {
     loadingFailed: 'Caricamento fallito'
   },
   'ar': {
-    title: 'محمل الصور - PM Code with AI',
+    title: 'محمل الصور',
     downloadSelected: 'تحميل المحدد',
     downloadAll: 'تحميل الكل',
     settings: 'الإعدادات',
@@ -192,7 +192,7 @@ const i18n = {
     loadingFailed: 'فشل التحميل'
   },
   'hi': {
-    title: 'छवि डाउनलोडर - PM Code with AI',
+    title: 'छवि डाउनलोडर',
     downloadSelected: 'चयनित डाउनलोड करें',
     downloadAll: 'सभी डाउनलोड करें',
     settings: 'सेटिंग्स',
@@ -208,7 +208,7 @@ const i18n = {
     loadingFailed: 'लोड करने में विफल'
   },
   'tr': {
-    title: 'Resim İndirici - PM Code with AI',
+    title: 'Resim İndirici',
     downloadSelected: 'Seçilenleri İndir',
     downloadAll: 'Tümünü İndir',
     settings: 'Ayarlar',
@@ -224,7 +224,7 @@ const i18n = {
     loadingFailed: 'Yükleme başarısız'
   },
   'vi': {
-    title: 'Trình tải ảnh - PM Code with AI',
+    title: 'Trình tải ảnh',
     downloadSelected: 'Tải đã chọn',
     downloadAll: 'Tải tất cả',
     settings: 'Cài đặt',
@@ -240,7 +240,7 @@ const i18n = {
     loadingFailed: 'Tải thất bại'
   },
   'th': {
-    title: 'ตัวดาวน์โหลดรูปภาพ - PM Code with AI',
+    title: 'ตัวดาวน์โหลดรูปภาพ',
     downloadSelected: 'ดาวน์โหลดที่เลือก',
     downloadAll: 'ดาวน์โหลดทั้งหมด',
     settings: 'ตั้งค่า',
@@ -256,7 +256,7 @@ const i18n = {
     loadingFailed: 'โหลดไม่สำเร็จ'
   },
   'id': {
-    title: 'Pengunduh Gambar - PM Code with AI',
+    title: 'Pengunduh Gambar',
     downloadSelected: 'Unduh yang Dipilih',
     downloadAll: 'Unduh Semua',
     settings: 'Pengaturan',
@@ -293,4 +293,4 @@ function t(key) {
   return i18n[currentLang][key] || i18n['en'][key] || key;
 }
 
-export { t };
+export { t }; 
