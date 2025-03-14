@@ -58,7 +58,7 @@ async function displayImages() {
     <div class="loading-progress">
       <div class="loading-bar"></div>
     </div>
-    <div class="loading-text">${t('loading')} 0%</div>
+    <div class="loading-text">${t('loadingProgress').replace('{progress}', '0')}</div>
   `;
   loadingElement.style.display = 'flex';
 
@@ -101,7 +101,7 @@ async function displayImages() {
         const progressBar = loadingElement.querySelector('.loading-bar');
         const progressText = loadingElement.querySelector('.loading-text');
         progressBar.style.width = `${progress}%`;
-        progressText.textContent = `${t('loading')} ${progress}%`;
+        progressText.textContent = t('loadingProgress').replace('{progress}', progress);
       }
       
       // 所有图片处理完成后，进行一次性排序

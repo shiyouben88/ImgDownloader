@@ -13,7 +13,8 @@ const i18n = {
     download: 'Download',
     invalidSize: 'Please enter valid size values',
     saveFailed: 'Failed to save settings, please try again',
-    loadingFailed: 'Loading failed'
+    loadingFailed: 'Loading failed',
+    loadingProgress: 'Loading {progress}%'
   },
   'zh': {
     title: '图片下载器',
@@ -29,7 +30,8 @@ const i18n = {
     download: '下载',
     invalidSize: '请输入有效的尺寸数值',
     saveFailed: '保存设置失败，请重试',
-    loadingFailed: '加载失败'
+    loadingFailed: '加载失败',
+    loadingProgress: '正在加载 {progress}%'
   },
   'zh-tw': {
     title: '圖片下載器',
@@ -45,7 +47,8 @@ const i18n = {
     download: '下載',
     invalidSize: '請輸入有效的尺寸數值',
     saveFailed: '儲存設定失敗，請重試',
-    loadingFailed: '載入失敗'
+    loadingFailed: '載入失敗',
+    loadingProgress: '正在載入 {progress}%'
   },
   'ja': {
     title: '画像ダウンローダー',
@@ -61,7 +64,8 @@ const i18n = {
     download: 'ダウンロード',
     invalidSize: '有効なサイズ値を入力してください',
     saveFailed: '設定の保存に失敗しました。もう一度お試しください',
-    loadingFailed: '読み込みに失敗しました'
+    loadingFailed: '読み込みに失敗しました',
+    loadingProgress: '読み込み中 {progress}%'
   },
   'ko': {
     title: '이미지 다운로더',
@@ -77,7 +81,8 @@ const i18n = {
     download: '다운로드',
     invalidSize: '유효한 크기 값을 입력하세요',
     saveFailed: '설정 저장 실패, 다시 시도해주세요',
-    loadingFailed: '로딩 실패'
+    loadingFailed: '로딩 실패',
+    loadingProgress: '로딩 중 {progress}%'
   },
   'es': {
     title: 'Descargador de imágenes',
@@ -93,7 +98,8 @@ const i18n = {
     download: 'Descargar',
     invalidSize: 'Ingrese valores de tamaño válidos',
     saveFailed: 'Error al guardar la configuración, intente nuevamente',
-    loadingFailed: 'Error al cargar'
+    loadingFailed: 'Error al cargar',
+    loadingProgress: 'Cargando {progress}%'
   },
   'fr': {
     title: 'Téléchargeur d\'images',
@@ -109,7 +115,8 @@ const i18n = {
     download: 'Télécharger',
     invalidSize: 'Veuillez entrer des valeurs de taille valides',
     saveFailed: 'Échec de l\'enregistrement des paramètres, veuillez réessayer',
-    loadingFailed: 'Échec du chargement'
+    loadingFailed: 'Échec du chargement',
+    loadingProgress: 'Chargement {progress}%'
   },
   'de': {
     title: 'Bilder-Downloader',
@@ -125,7 +132,8 @@ const i18n = {
     download: 'Herunterladen',
     invalidSize: 'Bitte gültige Größenwerte eingeben',
     saveFailed: 'Einstellungen konnten nicht gespeichert werden, bitte erneut versuchen',
-    loadingFailed: 'Laden fehlgeschlagen'
+    loadingFailed: 'Laden fehlgeschlagen',
+    loadingProgress: 'Laden {progress}%'
   },
   'ru': {
     title: 'Загрузчик изображений',
@@ -141,7 +149,8 @@ const i18n = {
     download: 'Скачать',
     invalidSize: 'Введите корректные значения размера',
     saveFailed: 'Не удалось сохранить настройки, попробуйте еще раз',
-    loadingFailed: 'Ошибка загрузки'
+    loadingFailed: 'Ошибка загрузки',
+    loadingProgress: 'Загрузка {progress}%'
   },
   'pt': {
     title: 'Baixador de imagens',
@@ -157,7 +166,8 @@ const i18n = {
     download: 'Baixar',
     invalidSize: 'Digite valores de tamanho válidos',
     saveFailed: 'Falha ao salvar configurações, tente novamente',
-    loadingFailed: 'Falha ao carregar'
+    loadingFailed: 'Falha ao carregar',
+    loadingProgress: 'Carregando {progress}%'
   },
   'it': {
     title: 'Scaricatore di immagini',
@@ -173,7 +183,8 @@ const i18n = {
     download: 'Scarica',
     invalidSize: 'Inserisci valori dimensione validi',
     saveFailed: 'Impossibile salvare le impostazioni, riprova',
-    loadingFailed: 'Caricamento fallito'
+    loadingFailed: 'Caricamento fallito',
+    loadingProgress: 'Caricamento {progress}%'
   },
   'ar': {
     title: 'محمل الصور',
@@ -189,7 +200,8 @@ const i18n = {
     download: 'تحميل',
     invalidSize: 'الرجاء إدخال قيم صالحة للحجم',
     saveFailed: 'فشل حفظ الإعدادات، يرجى المحاولة مرة أخرى',
-    loadingFailed: 'فشل التحميل'
+    loadingFailed: 'فشل التحميل',
+    loadingProgress: 'جاري التحميل {progress}%'
   },
   'hi': {
     title: 'छवि डाउनलोडर',
@@ -205,7 +217,8 @@ const i18n = {
     download: 'डाउनलोड',
     invalidSize: 'कृपया मान्य आकार मान दर्ज करें',
     saveFailed: 'सेटिंग्स सहेजने में विफल, कृपया पुनः प्रयास करें',
-    loadingFailed: 'लोड करने में विफल'
+    loadingFailed: 'लोड करने में विफल',
+    loadingProgress: 'लोड हो रहा है {progress}%'
   },
   'tr': {
     title: 'Resim İndirici',
@@ -221,7 +234,8 @@ const i18n = {
     download: 'İndir',
     invalidSize: 'Lütfen geçerli boyut değerleri girin',
     saveFailed: 'Ayarlar kaydedilemedi, lütfen tekrar deneyin',
-    loadingFailed: 'Yükleme başarısız'
+    loadingFailed: 'Yükleme başarısız',
+    loadingProgress: 'Yükleniyor {progress}%'
   },
   'vi': {
     title: 'Trình tải ảnh',
@@ -237,7 +251,8 @@ const i18n = {
     download: 'Tải xuống',
     invalidSize: 'Vui lòng nhập giá trị kích thước hợp lệ',
     saveFailed: 'Không thể lưu cài đặt, vui lòng thử lại',
-    loadingFailed: 'Tải thất bại'
+    loadingFailed: 'Tải thất bại',
+    loadingProgress: 'Đang tải {progress}%'
   },
   'th': {
     title: 'ตัวดาวน์โหลดรูปภาพ',
@@ -253,7 +268,8 @@ const i18n = {
     download: 'ดาวน์โหลด',
     invalidSize: 'กรุณาใส่ค่าขนาดที่ถูกต้อง',
     saveFailed: 'บันทึกการตั้งค่าไม่สำเร็จ กรุณาลองอีกครั้ง',
-    loadingFailed: 'โหลดไม่สำเร็จ'
+    loadingFailed: 'โหลดไม่สำเร็จ',
+    loadingProgress: 'กำลังโหลด {progress}%'
   },
   'id': {
     title: 'Pengunduh Gambar',
@@ -269,7 +285,8 @@ const i18n = {
     download: 'Unduh',
     invalidSize: 'Masukkan nilai ukuran yang valid',
     saveFailed: 'Gagal menyimpan pengaturan, silakan coba lagi',
-    loadingFailed: 'Gagal memuat'
+    loadingFailed: 'Gagal memuat',
+    loadingProgress: 'Memuat {progress}%'
   }
 };
 
