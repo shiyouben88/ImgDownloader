@@ -53,6 +53,13 @@ async function displayImages() {
     return;
   }
 
+  // 创建进度条和文本元素
+  loadingElement.innerHTML = `
+    <div class="loading-progress">
+      <div class="loading-bar"></div>
+    </div>
+    <div class="loading-text">${t('loading')} 0%</div>
+  `;
   loadingElement.style.display = 'flex';
 
   // 如果已经在加载中，不要重复加载
@@ -62,7 +69,7 @@ async function displayImages() {
 
   isLoadingImages = true;
   const imageList = document.getElementById('imageList');
-  imageList.innerHTML = '';  // 清空列表，准备渐进式加载
+  imageList.innerHTML = '';  // 清空列表
 
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -73,7 +80,7 @@ async function displayImages() {
       const processedImages = [];
       
       // 每次处理一批图片
-      const batchSize = 5;  // 每批处理5张图片
+      const batchSize = 10;  // 增加批次大小以提高效率
       
       while (processingQueue.length > 0) {
         const batch = processingQueue.splice(0, batchSize);
@@ -89,27 +96,16 @@ async function displayImages() {
         // 将处理好的图片添加到结果数组
         processedImages.push(...processedBatch);
         
-        // 对当前所有处理好的图片进行排序
-        const sortedImages = processedImages.sort((a, b) => {
-          const [aLong, aShort] = a.width >= a.height ? [a.width, a.height] : [a.height, a.width];
-          const [bLong, bShort] = b.width >= b.height ? [b.width, b.height] : [b.height, b.width];
-          
-          if (aLong !== bLong) return bLong - aLong;
-          if (aShort !== bShort) return bShort - aShort;
-          
-          return b.sizeKB - a.sizeKB;
-        });
-        
-        // 过滤并立即渲染当前批次
-        const filteredImages = filterImages(sortedImages);
-        renderImages(filteredImages);
-        
-        // 给用户界面一个更新的机会
-        await new Promise(resolve => setTimeout(resolve, 10));
+        // 更新加载进度
+        const progress = Math.round((processedImages.length / response.images.length) * 100);
+        const progressBar = loadingElement.querySelector('.loading-bar');
+        const progressText = loadingElement.querySelector('.loading-text');
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${t('loading')} ${progress}%`;
       }
       
-      // 所有图片处理完成后，保存过滤后的结果
-      const finalSortedImages = processedImages.sort((a, b) => {
+      // 所有图片处理完成后，进行一次性排序
+      const sortedImages = processedImages.sort((a, b) => {
         const [aLong, aShort] = a.width >= a.height ? [a.width, a.height] : [a.height, a.width];
         const [bLong, bShort] = b.width >= b.height ? [b.width, b.height] : [b.height, b.width];
         
@@ -119,8 +115,12 @@ async function displayImages() {
         return b.sizeKB - a.sizeKB;
       });
       
-      // 保存过滤后的结果
-      loadedImages = filterImages(finalSortedImages);
+      // 过滤并保存结果
+      loadedImages = filterImages(sortedImages);
+      
+      // 一次性渲染所有图片
+      renderImages(loadedImages);
+      
       isLoadingImages = false;
       loadingElement.style.display = 'none';
     });
