@@ -30,7 +30,12 @@ async function startDownload() {
     const { url, pageTitle } = downloadQueue.shift();
     console.log('处理下载项 - URL:', url);
     console.log('处理下载项 - 页面标题:', pageTitle);
-    await downloadImage(url, pageTitle);
+    try {
+      await downloadImage(url, pageTitle);
+    } catch (error) {
+      console.error('下载失败，继续处理队列中的其他项:', error);
+      // 继续处理队列，不中断
+    }
     // 添加延迟以避免过快触发下载
     await new Promise(resolve => setTimeout(resolve, 500));
   }
@@ -99,8 +104,14 @@ function sanitizeFileName(name) {
     return 'no_title_page';  // 兜底值
   }
   
-  return name
+  // 移除表情符号和其他特殊Unicode字符
+  // 只保留基本拉丁字母、数字、中文字符和一些基本标点
+  const sanitized = name
     .replace(/[\\/:*?"<>|]/g, '_')  // 替换Windows不允许的文件名字符
     .replace(/\s+/g, '_')           // 替换空白字符为下划线
-    .trim() || 'no_title_page';     // 如果处理后为空，使用兜底值
+    .replace(/[^\w\s\u4e00-\u9fa5\-_.]/g, '') // 移除表情符号和其他特殊字符
+    .trim();
+  
+  // 如果处理后为空，使用兜底值
+  return sanitized || 'no_title_page';
 }
